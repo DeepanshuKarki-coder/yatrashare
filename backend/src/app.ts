@@ -51,6 +51,21 @@ export function createApp() {
   // General rate limiter
   app.use('/api', generalLimiter);
 
+  // Root welcome endpoint
+  app.get('/', (req: Request, res: Response) => {
+    res.status(200).json({
+      name: 'YatraShare API',
+      version: '1.0.0',
+      status: 'online',
+      documentation: 'https://github.com/DeepanshuKarki-coder/yatrashare',
+      endpoints: {
+        health: '/health',
+        ready: '/health/ready',
+        api: '/api',
+      },
+    });
+  });
+
   // Health and Observability endpoints
   app.get('/health', async (req: Request, res: Response) => {
     res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
