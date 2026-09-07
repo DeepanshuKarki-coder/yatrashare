@@ -23,23 +23,13 @@ export function createApp() {
   // CORS
   app.use(
     cors({
-      origin: (origin, callback) => {
-        if (!origin) return callback(null, true);
-        if (
-          origin.includes('localhost') ||
-          origin.includes('127.0.0.1') ||
-          origin.endsWith('.vercel.app') ||
-          origin === env.CLIENT_URL
-        ) {
-          return callback(null, true);
-        }
-        return callback(null, true);
-      },
+      origin: true,
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
     })
   );
+  app.options('*', cors({ origin: true, credentials: true }));
 
   // Request logging
   app.use(morgan(env.NODE_ENV === 'production' ? 'combined' : 'dev'));
