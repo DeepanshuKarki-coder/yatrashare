@@ -1,0 +1,41 @@
+name: YatraShare Continuous Integration
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate:
+    name: Lint, Test & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install Monorepo Dependencies
+        run: npm ci
+
+      - name: Build Shared Package
+        run: npm run build --workspace=@yatrashare/shared
+
+      - name: Run Backend Unit & Integration Tests (Atomic Concurrency Suite)
+        run: npm test --workspace=@yatrashare/backend
+
+      - name: Verify Backend Type Safety
+        run: npm run typecheck --workspace=@yatrashare/backend
+
+      - name: Build Frontend Production Assets
+        run: npm run build --workspace=@yatrashare/frontend
+
+      - name: Verify Docker Container Configurations
+        run: |
+          docker compose config

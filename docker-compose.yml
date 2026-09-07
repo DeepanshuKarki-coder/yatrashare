@@ -1,0 +1,67 @@
+services:
+  # Relational Database: PostgreSQL 16
+  postgres:
+    image: postgres:16-alpine
+    container_name: yatrashare-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: yatrashare
+      POSTGRES_PASSWORD: yatrashare_secure_pass
+      POSTGRES_DB: yatrashare_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/src/models/schema.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yatrashare -d yatrashare_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Application Backend API & Real-time WebSockets
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: yatrashare-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      DATABASE_URL: postgresql://yatrashare:yatrashare_secure_pass@postgres:5432/yatrashare_db
+      JWT_ACCESS_SECRET: production_jwt_access_secret_key_yatrashare_9999
+      JWT_REFRESH_SECRET: production_jwt_refresh_secret_key_yatrashare_8888
+      CORS_ORIGIN: http://localhost:3000,http://localhost
+      PAYMENT_GATEWAY_DEFAULT: MOCK
+      SMTP_HOST: smtp.ethereal.email
+      SMTP_PORT: 587
+      SMTP_SECURE: false
+      SMTP_USER: ethereal_user
+      SMTP_PASS: ethereal_pass
+      EMAIL_FROM: "YatraShare <no-reply@yatrashare.com>"
+    ports:
+      - "5000:5000"
+
+  # Single Page Application Web Client (Reverse Proxy Nginx)
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: yatrashare-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  default:
+    name: yatrashare-network

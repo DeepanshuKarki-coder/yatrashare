@@ -1,0 +1,8 @@
+node_modules
+.git
+.github
+*.db
+*.db-journal
+backend/tests
+.env
+.env.local

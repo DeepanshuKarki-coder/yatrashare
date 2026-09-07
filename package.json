@@ -1,0 +1,28 @@
+{
+  "name": "yatrashare-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Production-ready intercity ride-sharing and travel platform",
+  "workspaces": [
+    "shared",
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev:backend": "npm --workspace=backend run dev",
+    "dev:frontend": "npm --workspace=frontend run dev",
+    "build": "npm --workspace=shared run build && npm --workspace=backend run build && npm --workspace=frontend run build",
+    "test": "npm --workspace=backend run test",
+    "test:concurrency": "npm --workspace=backend run test:concurrency",
+    "lint": "npm --workspaces run lint",
+    "typecheck": "npm --workspaces run typecheck"
+  },
+  "keywords": [
+    "ridesharing",
+    "carpool",
+    "travel",
+    "yatrashare"
+  ],
+  "author": "YatraShare Engineering",
+  "license": "ISC"
+}
