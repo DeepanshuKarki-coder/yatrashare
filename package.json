@@ -12,10 +12,14 @@
     "dev:backend": "npm --workspace=backend run dev",
     "dev:frontend": "npm --workspace=frontend run dev",
     "build": "npm --workspace=shared run build && npm --workspace=backend run build && npm --workspace=frontend run build",
+    "build:backend": "npm --workspace=@yatrashare/shared run build && npm --workspace=@yatrashare/backend run build",
     "test": "npm --workspace=backend run test",
     "test:concurrency": "npm --workspace=backend run test:concurrency",
     "lint": "npm --workspaces run lint",
     "typecheck": "npm --workspaces run typecheck"
+  },
+  "dependencies": {
+    "typescript": "^5.8.2"
   },
   "keywords": [
     "ridesharing",
