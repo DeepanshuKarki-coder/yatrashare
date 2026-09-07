@@ -23,7 +23,18 @@ export function createApp() {
   // CORS
   app.use(
     cors({
-      origin: [env.CLIENT_URL, 'http://localhost:3000', 'http://127.0.0.1:3000'],
+      origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        if (
+          origin.includes('localhost') ||
+          origin.includes('127.0.0.1') ||
+          origin.endsWith('.vercel.app') ||
+          origin === env.CLIENT_URL
+        ) {
+          return callback(null, true);
+        }
+        return callback(null, true);
+      },
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],

@@ -16,7 +16,9 @@ async function bootstrap() {
 
   const io = new SocketIOServer(server, {
     cors: {
-      origin: [env.CLIENT_URL, 'http://localhost:3000', 'http://127.0.0.1:3000'],
+      origin: (origin, callback) => {
+        callback(null, true);
+      },
       credentials: true,
     },
   });
