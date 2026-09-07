@@ -13,7 +13,7 @@ export function getSocket(): Socket | null {
   }
 
   if (!socket) {
-    const wsUrl = import.meta.env.VITE_WS_URL || import.meta.env.VITE_API_URL || '/';
+    const wsUrl = (import.meta as any).env?.VITE_WS_URL || (import.meta as any).env?.VITE_API_URL || '/';
     socket = io(wsUrl, {
       auth: { token },
       autoConnect: true,
