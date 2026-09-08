@@ -15,7 +15,8 @@ import {
   Menu,
   X,
   CheckCircle2,
-  LifeBuoy
+  LifeBuoy,
+  Calculator
 } from 'lucide-react';
 import { UserRole } from '@yatrashare/shared';
 
@@ -70,6 +71,14 @@ export const Navbar: React.FC = () => {
           >
             <PlusCircle className="w-4 h-4 text-brand-600" />
             <span>Publish a Journey</span>
+          </Link>
+
+          <Link
+            to="/calculator"
+            className="text-sm font-medium text-slate-700 hover:text-brand-600 flex items-center space-x-1.5 transition-colors"
+          >
+            <Calculator className="w-4 h-4 text-emerald-600" />
+            <span>Cost Calculator</span>
           </Link>
 
           {isAuthenticated && (
@@ -333,6 +342,13 @@ export const Navbar: React.FC = () => {
               )}
             </>
           )}
+          <Link
+            to="/calculator"
+            onClick={() => setIsMenuOpen(false)}
+            className="block py-2 text-sm font-medium text-slate-800"
+          >
+            Cost & Savings Calculator
+          </Link>
           <Link
             to="/support"
             onClick={() => setIsMenuOpen(false)}

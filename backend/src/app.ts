@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import path from 'path';
+import fs from 'fs';
 import apiRouter from './routes';
 import { errorHandler } from './middlewares/error.middleware';
 import { generalLimiter } from './middlewares/rateLimiter';

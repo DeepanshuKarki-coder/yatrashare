@@ -18,6 +18,7 @@ import { SupportPage } from './pages/SupportPage';
 import { AdminPage } from './pages/AdminPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { CalculatorPage } from './pages/CalculatorPage';
 import { UserRole } from '@yatrashare/shared';
 
 // Route Guard for Authenticated Users
@@ -76,6 +77,7 @@ export const App: React.FC = () => {
                 {/* Public Routes */}
                 <Route path="/" element={<HomePage />} />
                 <Route path="/search" element={<SearchPage />} />
+                <Route path="/calculator" element={<CalculatorPage />} />
                 <Route path="/journey/:id" element={<JourneyDetailPage />} />
                 <Route path="/support" element={<SupportPage />} />
                 <Route path="/login" element={<LoginPage />} />
